@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     image:  {type:String},
     gender: { type: String, required: true },
+    role: {
+        type: mongoose.ObjectId,
+        ref: "roles",
+        default:"user"
+    },
 
 })
 userSchema.methods.generateAuthToken = (id) => {
