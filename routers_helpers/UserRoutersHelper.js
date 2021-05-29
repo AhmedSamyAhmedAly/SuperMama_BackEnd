@@ -55,7 +55,7 @@ exports.addUser = async (req, res) => {
        username: newUser.username,
        password: newUser.password,
        gender: newUser.gender,
-       role:role
+       role:role.toLowerCase()
  
      });
      //// hashing password
@@ -95,7 +95,7 @@ exports.updateUser = async (req, res) => {
       username: (updatedUser.username != "" && updatedUser.username != null) ? updatedUser.username : user.username,
       password: (updatedUser.password != "" && updatedUser.password != null) ? updatedUser.password : user.password,
       gender: (updatedUser.gender != "" && updatedUser.gender != null) ? updatedUser.gender : user.gender,
-      role: (updatedUser.role != undefined && updatedUser.role != null) ? updatedUser.role : user.role
+      role: (updatedUser.role != undefined && updatedUser.role != null) ? updatedUser.role.toLowerCase() : user.role.toLowerCase()
   
     }
     try{
