@@ -6,14 +6,10 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true },
-    image:  {type:String},
+   // image:  {type:String},
     gender: { type: String, required: true },
-    role: {
-        type: mongoose.ObjectId,
-        ref: "roles",
-        default:"user"
-    },
-
+    role:{type:String ,default:"user"}
+    
 })
 userSchema.methods.generateAuthToken = (id) => {
     const token = jwt.sign(

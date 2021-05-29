@@ -4,18 +4,16 @@ const { body, validationResult } = require('express-validator');
 ///validation function for register route request body
 const registerValidationRules = () => {
     return [
-        body('Email').isEmail().withMessage("Invalid Email")          ///// request body validation
+        body('email').isEmail().withMessage("Invalid Email")          ///// request body validation
             .exists().withMessage('Email is required')
             .isLength({max:30}).withMessage('Email max length is 30'),
-        body('Username').exists()
+        body('username').exists()
             .withMessage('Username is required')
             .isLength({max:20}).withMessage('Username max length is 20'),
-        body('Gender').exists()
+        body('gender').exists()
             .withMessage('Gender is required')
             .isLength({max:10}).withMessage('Gender max length is 10'),
-        body('Age').isNumeric().withMessage("age must be a number").exists()
-            .withMessage('Age is required'),
-        body('Password').isLength({ min: 5 })
+        body('password').isLength({ min: 5 })
             .withMessage('Password must be at least 5 chars long')
     ]
 }
@@ -32,10 +30,10 @@ const validateRegister = async (req, res, next) => {
 ///validation function for login route request body
 const LoginValidationRules = () => {
     return [
-        body('Email').exists()
+        body('email').exists()
             .withMessage('Email is required')
             .isEmail().withMessage("Invalid Email"),
-        body('Password').exists()
+        body('password').exists()
             .withMessage('Password is required')
 
     ]

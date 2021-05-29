@@ -7,7 +7,7 @@ const Blacklist = require('../helper/TokenBlackList')
 
 module.exports = async function jwtauth(req, res, next) {
     //// fetch token from header
-    const token = req.header('x-user-token');
+    const token = req.header('user-token');
     
 
     //// if there is no token sent

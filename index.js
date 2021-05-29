@@ -6,7 +6,8 @@ require('dotenv').config();
 const redis = require('redis');
 const session = require('express-session');
 let RedisStore = require('connect-redis')(session);
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+const Users = require('./Routes/UserRouter');
 const IN_PROD = process.env.NODE_ENV === 'production'
 
 
@@ -37,9 +38,21 @@ app.use(session({
     resave: false
   }))
 
+  //////////////////////////////////////////////////////////////////////////
+app.use(express.static('public'));                      // store anything in static public file like files or images 
+app.use(express.json());                                // parses incoming requests with JSON payloads and is based on body-parser
+app.use(express.urlencoded({ extended: true }));        // parses incoming requests with urlencoded payloads and is based on body-parser.
+app.use(cors())                                         // used to enable CORS with various options
+app.use(cookieParser())                                 // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
+
+
+//////General Routes
+app.use('/api', Users)
+
 // This middleware will check if user's cookie is still saved in browser and user is not set,
 // then automatically log the user out.
 app.use((req, res, next) => {
+  console.log(req.cookies)
   if (req.cookies.user && !req.session.user) {
     res.clearCookie('user');
   }
@@ -60,13 +73,8 @@ app.use((err, req, res, next) => {
     res.status(500).send({ error: 'internal server error' })
     next(err);
   });
-//////////////////////////////////////////////////////////////////////////
 
-app.use(express.static('public'));                      // store anything in static public file like files or images 
-app.use(express.json());                                // parses incoming requests with JSON payloads and is based on body-parser
-app.use(express.urlencoded({ extended: true }));        // parses incoming requests with urlencoded payloads and is based on body-parser.
-app.use(cors())                                         // used to enable CORS with various options
-app.use(cookieParser())                                 // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
+
 
 //////////////////////////////////////////////////////////////////////////
 app.listen(process.env.PORT || 3000, () => {
