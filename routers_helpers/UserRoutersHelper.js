@@ -91,7 +91,7 @@ exports.updateUser = async (req, res) => {
 
 
     let updates = {
-      email: (updatedUser.email != "" && updatedUser.email != null) ?updatedUser.email : user.email,
+      email: (updatedUser.email != "" && updatedUser.email != null) ?updatedUser.email.toLowerCase() : user.email.toLowerCase(),
       username: (updatedUser.username != "" && updatedUser.username != null) ? updatedUser.username : user.username,
       password: (updatedUser.password != "" && updatedUser.password != null) ? updatedUser.password : user.password,
       gender: (updatedUser.gender != "" && updatedUser.gender != null) ? updatedUser.gender : user.gender,
