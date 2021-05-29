@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_DB || 'mongodb://localhost:27017/SuperMama', (err) => {
-    if(err) {
-        console.warn("failed to connect to MongoDB")
-        console.error(err);
-        process.exit(1);
-    }
-    console.info(`connected to DB successfully`);
-});
+mongoose.set('useFindAndModify', false);
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useCreateIndex', true);
+
+/////////////check if connected to db or no ///////////////
+mongoose.connect(process.env.MONGO_DB || 'mongodb://localhost:27017/SuperMama', 
+{ useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('connected to MongodDB ...'))
+    .catch((err) => console.error('can not connect to MongoDB', err))
