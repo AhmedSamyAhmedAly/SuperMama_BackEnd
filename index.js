@@ -8,6 +8,7 @@ const session = require('express-session');
 let RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 const Users = require('./Routes/UserRouter');
+const Products = require('./Routes/ProductRouter');
 const IN_PROD = process.env.NODE_ENV === 'production'
 
 
@@ -48,6 +49,8 @@ app.use(cookieParser())                                 // Parse Cookie header a
 
 //////General Routes
 app.use('/api', Users)
+app.use('/api/products', Products)
+
 
 // This middleware will check if user's cookie is still saved in browser and user is not set,
 // then automatically log the user out.
@@ -79,4 +82,4 @@ app.use((err, req, res, next) => {
 //////////////////////////////////////////////////////////////////////////
 app.listen(process.env.PORT || 3000, () => {
     console.info(`server listening on port 3000`);
-}); 
+});
