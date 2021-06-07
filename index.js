@@ -11,7 +11,6 @@ const Users = require('./Routes/UserRouter');
 const Products = require('./Routes/ProductRouter');
 const IN_PROD = process.env.NODE_ENV === 'production'
 
-
 /////// check if env variables is set or no /////
 if (!process.env.SECRET_KEY) {
     console.error('FATAL ERROR: Secret_key is not defined !!')

@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const Blacklist = require('../helper/TokenBlackList');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
+const mongoose = require('mongoose');
 
 
 /* #region get all users */
@@ -30,6 +30,11 @@ exports.getUserById = async (req, res) => {
     const loginedID = (req.params.id != null && req.params.id != undefined) ? req.params.id :req.user._id;
      
     try {
+         //check if the id is valid mongoose object id
+         var isValid = mongoose.Types.ObjectId.isValid(loginedID);
+         if (!isValid) return res.status(401).send("This user id is not valid"); 
+
+          //check if user id is exist in DB
         const user = await User.findById(loginedID);
         if (user) return  res.send(user);
         else return res.status(404).send("This user id is not exist")
@@ -77,16 +82,23 @@ exports.addUser = async (req, res) => {
 
 /* #region update user */
 exports.updateUser = async (req, res) => {
+
     const loginedID = (req.params.id != undefined && req.params.id != null) ? req.params.id : req.user._id;
+
+     //check if the id is valid mongoose object id
+     var isValid = mongoose.Types.ObjectId.isValid(loginedID);
+     if (!isValid) return res.status(401).send("This user id is not valid"); 
+
+      //check if user id is exist in DB
     let user = await User.findById(loginedID);
     if(!user) return res.send({ message: 'This user id is not exist' })
 
     const updatedUser = req.body;
      /// if user send new password
-     if (updatedUser.Password != undefined && updatedUser.Password != null) {
+     if (updatedUser.password != undefined && updatedUser.password != null) {
         //// hashing password
         const salt = await bcrypt.genSalt(10);
-        updatedUser.Password = await bcrypt.hash(updatedUser.Password, salt)
+        updatedUser.password = await bcrypt.hash(updatedUser.password, salt)
     }
 
 
@@ -117,8 +129,15 @@ exports.updateUser = async (req, res) => {
 exports.DeleteUser = async (req, res) => {
 
     const loginedID = (req.params.id != undefined && req.params.id != null) ? req.params.id : req.user._id;
+
+     //check if the id is valid mongoose object id
+     var isValid = mongoose.Types.ObjectId.isValid(loginedID);
+     if (!isValid) return res.status(401).send("This user id is not valid"); 
+
+      //check if user id is exist in DB
     const user = await User.findById(loginedID);
     if (!user) return res.status(404).send({ message: "the user ID is not exist" })
+
     try{
         await User.deleteOne(user)
         return res.status(200).redirect('http://localhost:3000/api/logout')
@@ -138,6 +157,7 @@ exports.logout = async (req, res) => {
 
     //// invalidate session token by destroy it and clear cookie
     res.clearCookie('user');
+    
     req.session.destroy(err => {
         if (err) {
             return res.send(err)
