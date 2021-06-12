@@ -140,7 +140,7 @@ exports.DeleteUser = async (req, res) => {
 
     try{
         await User.deleteOne(user)
-        return res.status(200).redirect('http://localhost:3000/api/logout')
+        return res.status(200).redirect('https://blog-post-imaging.herokuapp.com/api/logout')
     }
     catch(err){
         return res.send(err);

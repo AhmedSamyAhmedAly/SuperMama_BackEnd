@@ -19,9 +19,14 @@ if (!process.env.SECRET_KEY) {
   };
 
 //// redis error logs
-let redisClient = redis.createClient();
+let redisClient = redis.createClient({
+  
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password:process.env.REDIS_PASS
+});
 redisClient.on('error', err => {
-  console.log('Error ' + err);
+console.log('Error ' + err);
 });
 
 // initialize express-session to allow us track the logged-in user across sessions.
