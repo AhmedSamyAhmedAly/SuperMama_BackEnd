@@ -1,41 +1,41 @@
 const express = require('express');
 const router = new express.Router();
 
-const Product = require("../models/products");
+const Product = require("../models/Product");
 const ProductHelper = require("../routers_helpers/ProductRouterHelper");
 
-var multer  = require('multer');
+var multer = require('multer');
 
 ////saves the uploaded image to the server storage
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, './public');
+        cb(null, './public');
     },
     filename: (req, file, cb) => {
-      var filetype = '';
-      if(file.mimetype === 'image/gif') {
-        filetype = 'gif';
-      }
-      if(file.mimetype === 'image/png') {
-        filetype = 'png';
-      }
-      if(file.mimetype === 'image/jpeg') {
-        filetype = 'jpg';
-      }
-      cb(null, 'image-' + Date.now() + '.' + filetype);
+        var filetype = '';
+        if (file.mimetype === 'image/gif') {
+            filetype = 'gif';
+        }
+        if (file.mimetype === 'image/png') {
+            filetype = 'png';
+        }
+        if (file.mimetype === 'image/jpeg') {
+            filetype = 'jpg';
+        }
+        cb(null, 'image-' + Date.now() + '.' + filetype);
     }
 });
 
-var upload = multer({storage: storage});
+var upload = multer({ storage: storage });
 
 
 ///api to create new product
 router.post('/', upload.single('file'), async(req, res) => {
     try {
         req.body.totalRating = 1;
-        const { name, category, brand, numberInStock, price } = req.body  ////required fields
+        const { name, category, brand, numberInStock, price } = req.body ////required fields
         if (name && category && brand && numberInStock && price) {
-            if(req.file){
+            if (req.file) {
                 req.body.imgUrl = 'http://localhost:3000/' + req.file.filename;
                 req.body.imgName = req.file.filename;
             }
@@ -58,9 +58,9 @@ router.route('/:id')
         try {
             const { id } = req.params;
             const product = await Product.findByIdAndDelete(id)
-            ////to delete the image from server storage
-            fs.unlink(`./public/${product.imgName}`,function(err){
-                if(err) throw err;
+                ////to delete the image from server storage
+            fs.unlink(`./public/${product.imgName}`, function(err) {
+                if (err) throw err;
                 console.log('image deleted successfully');
             });
             const obj = {
@@ -165,13 +165,13 @@ router.delete('/:productId/comments/:commentId', async(req, res) => {
 
 
 
-router.get('/',ProductHelper.getProducts )
+router.get('/', ProductHelper.getProducts)
 
-router.get('/:id',ProductHelper.getProductsByID )
+router.get('/:id', ProductHelper.getProductsByID)
 
-router.get('/getCategory',ProductHelper.getCategories )
+router.get('/getCategory', ProductHelper.getCategories)
 
-router.get('/getBrand',ProductHelper.getBrands )
+router.get('/getBrand', ProductHelper.getBrands)
 
 
 module.exports = router;
