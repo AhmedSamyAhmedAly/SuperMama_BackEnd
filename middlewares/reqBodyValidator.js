@@ -39,11 +39,35 @@ const LoginValidationRules = () => {
     ]
 }
 
+///validation function for add order route request body
+const NewOrderValidationRules = () => {
+    return [
+        body('total_price').exists()
+            .withMessage('Total Price is required')
+            .isInt().withMessage("Total Price must be numerical"),
+        body('products').exists()
+            .withMessage('Products is required')
+            .isArray().withMessage('products must be array'),
+    ]
+}
+
+
+///validation function for update order status route request body
+const UpdateOrderStatusValidationRules = () => {
+    return [
+        body('status').exists()
+            .withMessage('status is required')
+            .matches(/\b(?:accepted|rejected|pending)\b/).withMessage("Total Price must be numerical"),
+    ]
+}
+
+
 
 
 module.exports = {
     registerValidationRules,
     validation,
-    LoginValidationRules
-
+    LoginValidationRules,
+    NewOrderValidationRules,
+    UpdateOrderStatusValidationRules
 }
