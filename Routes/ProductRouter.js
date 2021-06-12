@@ -9,7 +9,7 @@ const ProductHelper = require("../routers_helpers/ProductRouterHelper");
 router.post('/', async(req, res) => {
     try {
         req.body.totalRating = 1;
-        const { name, category, brand, numberInStock, price } = req.body  ////required fields
+        const { name, category, brand, numberInStock, price } = req.body ////required fields
         if (name && category && brand && numberInStock && price) {
             const product = await Product.create(req.body)
             const obj = {
@@ -132,13 +132,13 @@ router.delete('/:productId/comments/:commentId', async(req, res) => {
 
 
 
-router.get('/',ProductHelper.getProducts )
+router.get('/', ProductHelper.getProducts)
 
-router.get('/:id',ProductHelper.getProductsByID )
+router.get('/:id', ProductHelper.getProductsByID)
 
-router.get('/getCategory',ProductHelper.getCategories )
+router.get('/getCategory', ProductHelper.getCategories)
 
-router.get('/getBrand',ProductHelper.getBrands )
+router.get('/getBrand', ProductHelper.getBrands)
 
 
 module.exports = router;
