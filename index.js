@@ -9,6 +9,8 @@ let RedisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 const Users = require('./Routes/UserRouter');
 const Products = require('./Routes/ProductRouter');
+const ImgUpload = require('./Routes/ImgUpload')
+const Orders = require('./Routes/OrderRouter')
 const IN_PROD = process.env.NODE_ENV === 'production'
 
 /////// check if env variables is set or no /////
@@ -51,9 +53,13 @@ app.use(cors())                                         // used to enable CORS w
 app.use(cookieParser())                                 // Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
 
 
+//////Features Routes
+app.use('/api', ImgUpload)
+
 //////General Routes
 app.use('/api', Users)
 app.use('/api/products', Products)
+app.use('/api', Orders)
 
 
 // This middleware will check if user's cookie is still saved in browser and user is not set,

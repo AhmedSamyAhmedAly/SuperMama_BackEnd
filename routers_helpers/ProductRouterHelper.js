@@ -1,3 +1,5 @@
+const Product = require('../models/Product')
+
 exports.getProducts = async (req, res) => {
     try {
         // const userById = await User.findById(req.signedData.id);

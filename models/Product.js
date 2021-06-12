@@ -9,7 +9,6 @@ const ProductsSchema = new mongoose.Schema({
             required: [true, "can't be blank"],
         },
         imgUrl: { type: String },
-        imgName: { type: String },
         description: { 
             type: String,
             min: 1,
@@ -37,42 +36,42 @@ const ProductsSchema = new mongoose.Schema({
         },
 
      ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        totalRating:{
-            type:Number,
-            min:1,
-            max:5,
-        },
-        ratings:[{
-            user :{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'User'
-            },
-            rating:{
-                type:Number,
-                min:0,
-                max:5,
-            } 
-        }],
+        // totalRating:{
+        //     type:Number,
+        //     min:1,
+        //     max:5,
+        // },
+        // ratings:[{
+        //     user :{
+        //         type:mongoose.Schema.Types.ObjectId,
+        //         ref:'User'
+        //     },
+        //     rating:{
+        //         type:Number,
+        //         min:0,
+        //         max:5,
+        //     } 
+        // }],
                   
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        comments:[{
-            body :{
-                 type: String,
-                 min: 1,
-                 maxlength:500,
-                 required: [true, "can't be blank"]
+        // comments:[{
+        //     body :{
+        //          type: String,
+        //          min: 1,
+        //          maxlength:500,
+        //          required: [true, "can't be blank"]
 
-            },
-            user :{
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'User'
-            },
-            time:{
-                type:Date,
-                default: Date.now()
-            }
+        //     },
+        //     user :{
+        //         type:mongoose.Schema.Types.ObjectId,
+        //         ref:'User'
+        //     },
+        //     time:{
+        //         type:Date,
+        //         default: Date.now()
+        //     }
             
-        }]
+        // }]
 }
 , {timestamps: true}
 )

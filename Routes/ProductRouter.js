@@ -1,44 +1,16 @@
 const express = require('express');
 const router = new express.Router();
 
-const Product = require("../models/products");
+const Product = require("../models/Product");
 const ProductHelper = require("../routers_helpers/ProductRouterHelper");
-
-var multer  = require('multer');
-
-////saves the uploaded image to the server storage
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './public');
-    },
-    filename: (req, file, cb) => {
-      var filetype = '';
-      if(file.mimetype === 'image/gif') {
-        filetype = 'gif';
-      }
-      if(file.mimetype === 'image/png') {
-        filetype = 'png';
-      }
-      if(file.mimetype === 'image/jpeg') {
-        filetype = 'jpg';
-      }
-      cb(null, 'image-' + Date.now() + '.' + filetype);
-    }
-});
-
-var upload = multer({storage: storage});
 
 
 ///api to create new product
-router.post('/', upload.single('file'), async(req, res) => {
+router.post('/', async(req, res) => {
     try {
         req.body.totalRating = 1;
         const { name, category, brand, numberInStock, price } = req.body  ////required fields
         if (name && category && brand && numberInStock && price) {
-            if(req.file){
-                req.body.imgUrl = 'http://localhost:3000/' + req.file.filename;
-                req.body.imgName = req.file.filename;
-            }
             const product = await Product.create(req.body)
             const obj = {
                 success: true,
@@ -58,11 +30,6 @@ router.route('/:id')
         try {
             const { id } = req.params;
             const product = await Product.findByIdAndDelete(id)
-            ////to delete the image from server storage
-            fs.unlink(`./public/${product.imgName}`,function(err){
-                if(err) throw err;
-                console.log('image deleted successfully');
-            });
             const obj = {
                 success: true,
                 message: (product) ? "product deleted successfully" : "product not found"
@@ -72,7 +39,7 @@ router.route('/:id')
             res.json({ success: false, message: err.message })
         }
     })
-    .patch(upload.single('image'), async(req, res) => { ///edit product
+    .patch(async(req, res) => { ///edit product
         try {
             const { id } = req.params;
             const { name, description, category, brand, numberInStock, price } = req.body
