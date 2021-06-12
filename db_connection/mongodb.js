@@ -5,7 +5,7 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 
 /////////////check if connected to db or no ///////////////
-mongoose.connect(process.env.MONGO_DB || 'mongodb://localhost:27017/SuperMama', 
+mongoose.connect('mongodb+srv://SuperMamy:SuperMamyITI@supermamy.tzttc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority' , 
 { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('connected to MongodDB ...'))
     .catch((err) => console.error('can not connect to MongoDB', err))
