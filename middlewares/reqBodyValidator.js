@@ -17,7 +17,7 @@ const registerValidationRules = () => {
             .withMessage('Password must be at least 5 chars long')
     ]
 }
-const validateRegister = async (req, res, next) => {
+const validation = async (req, res, next) => {
 
     /////// check if there were any errors in req 
     const errors = validationResult(req);
@@ -39,18 +39,11 @@ const LoginValidationRules = () => {
     ]
 }
 
-const validateLogin = async (req, res, next) => {
 
-    /////// validate req body
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).send({ error: errors.errors[0].msg });
-    return next();
-}
 
 module.exports = {
     registerValidationRules,
-    validateRegister,
-    LoginValidationRules,
-    validateLogin
+    validation,
+    LoginValidationRules
 
 }
