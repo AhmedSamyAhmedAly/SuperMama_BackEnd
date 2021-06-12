@@ -1,4 +1,4 @@
-const Cart = require('../models/Cart');
+const Cart = require('../models/Carts');
 const mongoose = require('mongoose');
 const Products = require('../models/Product');
 
@@ -10,6 +10,7 @@ exports.getCart = async(req, res) => {
         console.log()
         if (req.user) {
             cart_user = await Cart.findOne({ user: req.user });
+
             res.json(cart_user)
         } else return res.status(404).send("something went wrong");
     } catch (err) {
@@ -92,7 +93,7 @@ exports.reduceQuantity = async(req, res) => {
         if (itemIndex > -1) {
             // find the product to find its price
 
-            const product = await Product.findById(productId);
+            const product = await Products.findById(productId);
             // if product is found, reduce its qty
 
             cart.items[itemIndex].qty--;

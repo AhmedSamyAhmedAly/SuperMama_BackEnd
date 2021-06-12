@@ -10,8 +10,8 @@ var cookieParser = require('cookie-parser');
 const Users = require('./Routes/UserRouter');
 const Products = require('./Routes/ProductRouter');
 const ImgUpload = require('./Routes/ImgUpload')
-const Orders = require('./Routes/OrderRouter')
-const Carts = require('./Routes/CartRouter');
+const Orders = require('./Routes/OrderRouter');
+const Cart = require('./Routes/CartRouter');
 
 const IN_PROD = process.env.NODE_ENV === 'production'
 
@@ -59,7 +59,7 @@ app.use(cookieParser()) // Parse Cookie header and populate req.cookies with an 
 app.use('/api', ImgUpload)
 
 //////General Routes
-app.use('/api', Carts)
+app.use('/api', Cart)
 
 app.use('/api', Users)
 app.use('/api/products', Products)
